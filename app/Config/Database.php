@@ -29,7 +29,7 @@ class Database extends Config
         'hostname' => 'localhost',
         'username' => 'codeigniter4',
         'password' => 'codeigniter',
-        'database' => 'db_name',
+        'database' => 'gammers',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

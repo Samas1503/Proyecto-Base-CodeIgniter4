@@ -32,7 +32,9 @@ $routes->set404Override();
 $routes->get('/inicio', 'Home::index',['as' => '/']);
 $routes->get('/formulario', 'Home::formulario',['as' => '/formulario']);
 $routes->get('/contacto', 'Home::contacto',['as' => '/contacto']);
-$routes->get('/iniciar-sesion', 'Home::inicio_sesion',['as' => '/iniciar-sesion']);
+$routes->get('/iniciar-sesion', 'Auth\Sesion::index',['as' => '/iniciar-sesion']);
+$routes->get('/registro', 'Auth\Registro::index',['as' => '/registro']);
+$routes->get('/tablas/(:any)', 'TablasController::index/$type');
 
 /*
  * --------------------------------------------------------------------
