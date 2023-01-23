@@ -12,8 +12,9 @@ class gammersModel extends Model{
         $datos = $this->db->query('SELECT * FROM juegos');
         return $datos->getResult();
     }
-    public function obtenerClases(){
-        $datos = $this->db->query('SELECT * FROM clases');
+    public function obtenerClases($filtro = 0){
+        $datos = $this->db->query("SELECT * FROM clases WHERE nivel LIKE %".($filtro));
+
         return $datos->getResult();
     }
     public function obtenerNiveles(){

@@ -17,39 +17,85 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <!-- <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                                <label for="floatingInput">Email address</label>
-                            </div> -->
-                            <div class="fomr-control">
-                                <select class="form-select" aria-label="usuarioSelect">
-                                    <option selected>Selecciona un Usuario</option>
-                                    <?php foreach($metodos->obtenerUsuarios() as $usuario):?>
-                                        <option value="<?=$usuario->id_usuario?>"><?=$usuario->nombre?></option></option>
-                                    <?php endforeach;?>
-                                </select>
-                            </div>
-                            <div class="fomr-control">
-                                <select class="form-select" aria-label="JuegoSelect">
-                                    <option selected>Selecciona un Juego</option>
-                                    <?php foreach($metodos->obtenerJuegos() as $juego):?>
-                                        <option value="<?=$juego->id_juego?>"><?=$juego->nombre?></option></option>
-                                    <?php endforeach;?>
-                                </select>
-                            </div>
-                            <div class="form-floating">
-                                <input type="password" class="form-control" id="<?=$titulo?>Estado" placeholder="Estado">
-                                <label for="<?=$titulo?>Estado">Password</label>
-                            </div>
-                            <div class="form-control">
-                                <label for="rangoEstado" class="form-label">Porcentaje de Juego completado</label>
-                                <div class="d-flex justify-content-between">
-                                    <?php for ($i = 0; $i <= 100; $i = $i + 25) {
-                                        echo "<p class='pb-0 mb-0'>$i%</p>";
-                                    }?>
-                                </div>
-                                <input type="range" class="form-range pt-0 mt-0" min="0" max="100" step="0.01" id="rangoEstado">
-                            </div>
+                            <?php switch ($tipo) {
+                                case "usuarios":?>
+                                    <div class="d-flex justify-content-between form-group">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="<?=$titulo?>Nombre" placeholder="Nombre">
+                                            <label for="<?=$titulo?>Nombre">Nombre(s)</label>
+                                        </div>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="<?=$titulo?>Apellido" placeholder="Apellido">
+                                            <label for="<?=$titulo?>Apellido">Apellido(s)</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="<?=$cabecera?>Email" placeholder="name@example.com">
+                                        <label for="<?=$cabecera?>Email">Correo Electronico</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control" id="<?=$titulo?>Password" placeholder="Password">
+                                        <label for="<?=$titulo?>Password">Contraseña</label>
+                                    </div>
+                                    <div class="fomr-control">
+                                        <select class="form-select" aria-label="usuarioSelect">
+                                            <option selected>Selecciona un Tipo de Usuario</option>
+                                            <?php foreach($metodos->obtenerTiposUsuarios() as $t_usuario):?>
+                                                <option value="<?=$t_usuario->id_tipo?>"><?=$t_usuario->descripcion?></option></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </div>
+                                    <?php break;
+                                case "partidas":?>
+                                    <div class="fomr-control">
+                                        <select class="form-select" aria-label="usuarioSelect">
+                                            <option selected>Selecciona un Usuario</option>
+                                            <?php foreach($metodos->obtenerUsuarios() as $usuario):?>
+                                                <option value="<?=$usuario->id_usuario?>"><?=$usuario->nombre?></option></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </div>
+                                    <div class="fomr-control">
+                                        <select class="form-select" aria-label="JuegoSelect">
+                                            <option selected>Selecciona un Juego</option>
+                                            <?php foreach($metodos->obtenerJuegos() as $juego):?>
+                                                <option value="<?=$juego->id_juego?>"><?=$juego->nombre?></option></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </div>
+                                    <div class="form-control">
+                                        <label for="rangoEstado" class="form-label">Porcentaje de Juego completado</label>
+                                        <div class="d-flex justify-content-between">
+                                            <?php for ($i = 0; $i <= 100; $i = $i + 25) {
+                                                echo "<p class='pb-0 mb-0'>$i%</p>";
+                                            }?>
+                                        </div>
+                                        <input type="range" class="form-range pt-0 mt-0" min="0" max="100" step="0.01" id="rangoEstado">
+                                    </div>
+                                    <?php break;
+                                case "juegos":
+                                    $lvl=0;?>
+                                    <div class="fomr-control">
+                                        <select class="form-select" aria-label="nivelSelect">
+                                            <option selected>Selecciona un Nivel</option>
+                                            <?php foreach($metodos->obtenerNiveles() as $nivel):?>
+                                                <option onClick="<?php $lvl=$nivel->id_nivel?>" value="<?=$nivel->id_nivel?>"><?=$nivel->descripcion?></option></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </div>
+                                    <div class="fomr-control">
+                                        <select class="form-select" aria-label="claseSelect">
+                                            <option selected>Selecciona una Clase</option>
+                                            <?php foreach($metodos->obtenerClases($lvl) as $clase):?>
+                                                <option value="<?=$clase->id_clase?>"><?=$clase->descripcion?></option></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </div>
+                                    <?php break;
+                                case "comentarios":?>
+
+                                    <?php break;
+                            }?>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -66,7 +112,6 @@
     $datos = [];
     switch($tipo) {
         case "usuarios":
-            $datos = $metodos->obtenerDatosUsuarios();
             echo "<div class='table-responsive'><table class='table table-dark table-striped'>
                 <thead>
                     <tr>
@@ -78,7 +123,7 @@
                     </tr>
                 </thead>
                 <tbody>";
-                foreach ($datos as $dato) {
+                foreach ($metodos->obtenerDatosUsuarios() as $dato) {
                     echo "<tr><th scope='row'>" . $dato->id_usuario . "</th>";
                     echo "<td>" . $dato->nombre . "</td>";
                     echo "<td>" . $dato->apellido . "</td>";
